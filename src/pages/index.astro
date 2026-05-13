@@ -1,0 +1,30 @@
+---
+import MainComponent from '../components/MainComponent.jsx';
+import MapComponent from '../components/MapComponent.jsx';
+import CustomLabel from '../components/CustomLabel.jsx';
+import "../styles/global.css";
+---
+
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<link rel="icon" href="/favicon.ico" />
+		<meta name="viewport" content="width=device-width" />
+		<meta name="generator" content={Astro.generator} />
+		<title>Power Interruption App</title>
+	</head>
+	<body>
+		<div class="body bg-gray-800 text-white p-4 flex flex-col min-h-screen justify-center items-center">
+			<div class="header">
+			</div>
+			<div class="content">
+				<CustomLabel client:only text="You are here!" />
+				<MapComponent client:only />
+				<MainComponent client:load />
+			</div>
+		</div>
+		
+	</body>
+</html>
+r
