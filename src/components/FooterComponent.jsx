@@ -19,10 +19,10 @@ export default function FooterComponent ({ path }) {
   return (
   <> 
     <div className="footer-container p-4 text-center fixed inset-x-0 bottom-0">
-      <p className="py-10">{ hideLoginLink ? "" : isLoggedIn ?
+      {/* <p className="py-10">{ hideLoginLink ? "" : isLoggedIn ?
         <a onClick={logout} href="#" className={logClass}>Logout</a> : 
         <a href="/login" className={logClass}>Login</a>
-      }</p>
+      }</p> */}
 
       <p className="text-sm text-gray-500">© 2026 Valentia Lab. All rights reserved.</p>
     </div>
