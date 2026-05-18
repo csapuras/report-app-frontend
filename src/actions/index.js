@@ -28,8 +28,6 @@ export const server = {
         } else {
           return { success: false, error: data.error };
         }
-
-        return { success: true, token: "test token" };
     }
   })
 }

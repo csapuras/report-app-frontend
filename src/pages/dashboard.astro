@@ -1,6 +1,8 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import Dashboard from '../components/Dashboard.jsx';
+
 ---
 <BaseLayout>
-    <h1>Welcome to the Dashboard</h1>
+    <Dashboard client:load />
 </BaseLayout>
