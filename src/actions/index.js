@@ -3,8 +3,6 @@ import { z } from 'astro/zod';
 
 const host = import.meta.env.PUBLIC_DEFAULT_SERVER;
 const port = import.meta.env.PUBLIC_DEFAULT_PORT;
-const lat = import.meta.env.PUBLIC_DEFAULT_LAT;
-const lng = import.meta.env.PUBLIC_DEFAULT_LNG;
 
 export const server = {
   login: defineAction({
@@ -35,8 +33,8 @@ export const server = {
     input: z.object({
       name: z.string(),
       contact: z.string(),
-      lat: z.string().default(lat),
-      lng: z.string().default(lng)
+      lat: z.string(),
+      lng: z.string(),
     }),
     handler: async (input) => {
       console.log("Report input:", input);
