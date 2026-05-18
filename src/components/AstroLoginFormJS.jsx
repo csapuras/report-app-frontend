@@ -6,16 +6,15 @@ import { navigate } from "astro:transitions/client";
 import { useStore } from '@nanostores/react';
 
 export default function AstroLoginFormJS() {
-  const [result, action, isPending] = useActionState(
+  const $persistentAuthState = useStore(persistentAuthState);
+  console.log("AstroLoginFormJS", $persistentAuthState);
+
+  const [result, formAction, isPending] = useActionState(
     withState(actions.login),
-    {   success: null, token: null, error: null }
+    {   isLoggedIn: false, token: null, username:null, error: null }
   );
 
-  const $persistentAuthState = useStore(persistentAuthState);
-  
-
   useEffect(() => {
-    console.log('Login result:', $persistentAuthState );
     persistentAuthState.setKey('isLoggedIn', result?.data?.success || false);
     persistentAuthState.setKey('token', result?.data?.token || null);
     persistentAuthState.setKey('username', result?.data?.username || null);
@@ -27,9 +26,9 @@ export default function AstroLoginFormJS() {
   }, [result]);
   return (
     <>
-        <form method="POST" action={action}>
+        <form method="POST" action={formAction}>
           <label>
-            Email:
+            Username:
             <input type="text" name="username" required />
           </label>
           <label>

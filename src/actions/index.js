@@ -12,7 +12,6 @@ export const server = {
       password: z.string(),
     }),
     handler: async (input) => {
-        console.log("handler here", input);
         // post request to backend for authentication
         const response = await fetch(`${host}:${port}/login`, {
           method: 'POST',
