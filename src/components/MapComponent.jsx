@@ -10,7 +10,6 @@ export default function MapComponent () {
   const latitude = import.meta.env.PUBLIC_DEFAULT_LAT;
   const longitude = import.meta.env.PUBLIC_DEFAULT_LNG;
 
-
   return (
   <>
   <div className="map-container justify-center p-4">
@@ -19,7 +18,7 @@ export default function MapComponent () {
         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
       />
-      <Marker position={[latitude, longitude]} icon={new Icon({iconUrl: markerIconPng, iconSize: [25, 41], iconAnchor: [12, 41]})} />
+      <Marker position={[latitude, longitude]} icon={new Icon({iconUrl: markerIconPng.src, iconSize: [25, 41], iconAnchor: [12, 41]})} />
     </MapContainer>
   </div>
     
