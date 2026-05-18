@@ -10,7 +10,7 @@ import { persistentAuthState } from '../mainStore';
 export default function MapComponent () {
   const $persistentAuthState = useStore(persistentAuthState);
   console.log("MapComponent", $persistentAuthState);
-  
+
   const mapRef = useRef(null);
   const [error, setError] = useState(false);
   const [hasLocation, setHasLocation] = useState($persistentAuthState.lat !== "null" &&  $persistentAuthState.lng !== "null");
@@ -39,7 +39,7 @@ export default function MapComponent () {
   <div className="map-container justify-center p-4">
       {error && <p className="text-red-500">{error}</p>}
       { hasLocation &&
-        <MapContainer center={[$persistentAuthState.lat, $persistentAuthState.lng]} zoom={100} ref={mapRef} style={{height: "50vh", width: "50vw"}}>
+        <MapContainer center={[$persistentAuthState.lat, $persistentAuthState.lng]} zoom={100} ref={mapRef} style={{height: "50vh", width: "100%"}}>
         <TileLayer
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
