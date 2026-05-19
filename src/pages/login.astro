@@ -1,12 +1,10 @@
 ---
-import BaseLayout from '../layouts/BaseLayout.astro';
-import LoginForm from '../components/LoginForm.jsx';
-import AstroLoginForm from '../components/AstroLoginForm.astro';
-import AstroLoginFormJS from '../components/AstroLoginFormJS.jsx';
+import BaseLayout from '@layouts/BaseLayout.astro';
+import LoginForm from '@components/LoginForm';
 
 
 ---
 <BaseLayout>
     <h1>Login Page</h1>
-    <AstroLoginFormJS client:only />
+    <LoginForm client:only />
 </BaseLayout>

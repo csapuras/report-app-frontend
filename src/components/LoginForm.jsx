@@ -1,67 +1,46 @@
-
-import { useState } from 'react';
+import { useActionState, useEffect} from 'react';
+import { withState} from '@astrojs/react/actions';
 import { actions } from 'astro:actions';
+import { persistentAuthState } from '../mainStore';
+import { navigate } from "astro:transitions/client";
+import { useStore } from '@nanostores/react';
 
-export default function LoginForm () {
-  const [formData, setFormData] = useState({
-    username: '',
-    password: ''
-  })
+export default function LoginForm() {
+  const $persistentAuthState = useStore(persistentAuthState);
+  console.log("LoginForm", $persistentAuthState);
 
-  const handleSubmit = async (event) => {
-    event.preventDefault();
-    console.log("formData:", formData);
-    const host = import.meta.env.PUBLIC_DEFAULT_SERVER;
-const port = import.meta.env.PUBLIC_DEFAULT_PORT;
+  const [result, formAction, isPending ] = useActionState(
+    withState(actions.login),
+    {   isLoggedIn: false, token: null, username:null, error: null }
+  );
 
-     const response = await fetch(`${host}:${port}/login`, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(formData),
-        });
+  useEffect(() => {
+    persistentAuthState.setKey('isLoggedIn', result?.data?.success || false);
+    persistentAuthState.setKey('token', result?.data?.token || null);
+    persistentAuthState.setKey('username', result?.data?.username || null);
 
-      console.log("Response from server:", response);
-    // if (data.success) {
-    //   console.log("Login successful, token:", data.token);
-    //   // Handle successful login, e.g., store token, redirect, etc.
-    // } else {
-    //   console.error("Login failed:", error);
-    //   // Handle login failure, e.g., show error message to user
-    // }
-  }
+    if(result?.data?.success) {
+      navigate('/dashboard');
+    }
 
-  const handleChange = (event) => {
-    event.preventDefault();
-    setFormData({
-      ...formData,
-      [event.target.name]: event.target.value
-    });
-  }
+  }, [result]);
   return (
-  <>
-    <form onSubmit={handleSubmit}>
-        <div className="form-group">
-          <label>Username:</label>
-          <input 
-            type="text" 
-            name="username" 
-            value={formData.username} 
-            onChange={handleChange} 
-            required 
-          />
-        </div>
-        <div className="form-group">
-          <label>Password:</label>
-          <input 
-            type="password" 
-            name="password" 
-            value={formData.password} 
-            onChange={handleChange} 
-            required 
-          />
-        </div>
-        <button type="submit">Sign In</button>
-    </form>
-  </>  
+    <>
+        <form method="POST" action={formAction}>
+          <label>
+            Username:
+            <input type="text" name="username" required />
+          </label>
+          <label>
+            Password:
+            <input type="password" name="password" required />
+          </label>
+        
+          
+          <button type="submit">Log In</button>
+        </form>
+    </>
   )
 }
+
+

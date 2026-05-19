@@ -1,11 +1,8 @@
 ---
-import MainComponent from '../components/MainComponent.jsx';
-import MapComponent from '../components/MapComponent.jsx';
-import CustomLabel from '../components/CustomLabel.jsx';
-import BaseLayout from '../layouts/BaseLayout.astro';
+import MainComponent from '@components/MainComponent.jsx';
+import BaseLayout from '@layouts/BaseLayout.astro';
 ---
 
 <BaseLayout>
-	<CustomLabel client:only text="You are here!" />
 	<MainComponent client:only />
 </BaseLayout>

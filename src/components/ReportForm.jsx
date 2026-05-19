@@ -5,7 +5,7 @@ import { actions } from 'astro:actions';
 import { persistentAuthState } from '../mainStore';
 import { useStore } from '@nanostores/react';
 import  data from '../data/data.json';
-import MapComponent from './MapComponent';
+import MapComponent from '@components/MapComponent';
 
 export default function ReportForm() {
     const $persistentAuthState = useStore(persistentAuthState);
