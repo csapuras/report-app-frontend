@@ -3,6 +3,19 @@ import { z } from 'astro/zod';
 
 const host:string = import.meta.env.PUBLIC_DEFAULT_SERVER;
 const port:string = import.meta.env.PUBLIC_DEFAULT_PORT;
+const url:string = `${host}:${port}`
+
+interface InputLogin {
+  username: string;
+  password: string;
+}
+
+interface InputReport {
+  name: string;
+  contact: string;
+  lat: string;
+  lng: string;
+}
 
 export const server = {
   login: defineAction({
@@ -11,8 +24,8 @@ export const server = {
       username: z.string(),
       password: z.string(),
     }),
-    handler: async (input:any) => {
-        const response = await fetch(`${host}:${port}/login`, {
+    handler: async (input:InputLogin) => {
+        const response = await fetch(`${url}/login`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(input),
@@ -36,9 +49,9 @@ export const server = {
       lat: z.string(),
       lng: z.string(),
     }),
-    handler: async (input:any) => {
+    handler: async (input:InputReport) => {
       console.log("Report input:", input);
-        const response = await fetch(`${host}:${port}/api/reports`, {
+        const response = await fetch(`${url}/api/reports`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(input),

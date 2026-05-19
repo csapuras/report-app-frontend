@@ -14,7 +14,10 @@ export default function ReportForm() {
     const [selectedMunicipality, setSelectedMunicipality] = useState("");
     const [result, formAction, isPending] = useActionState(
         withState(actions.report),
-        {   status: null, error: null }
+        {   
+            data: { success:false, error:null},
+            error: undefined
+        },
     );
 
     useEffect(() => {

@@ -11,7 +11,10 @@ export default function LoginForm() {
 
   const [result, formAction, isPending ] = useActionState(
     withState(actions.login),
-    {   isLoggedIn: false, token: null, username:null, error: null }
+    {   
+      data: { success:false, token: "", username:""},
+      error: undefined
+    },
   );
 
   useEffect(() => {
@@ -37,7 +40,7 @@ export default function LoginForm() {
           </label>
         
           
-          <button type="submit">Log In</button>
+          <button type="submit" disabled={isPending}>Log In</button>
         </form>
     </>
   )
