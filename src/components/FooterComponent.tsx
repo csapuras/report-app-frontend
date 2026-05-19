@@ -1,17 +1,17 @@
 import { useStore } from '@nanostores/react';
 import { persistentAuthState } from '../mainStore';
 
-export default function FooterComponent ({ path }) {
+export default function FooterComponent ({ path }: { path: string }) {
   const $persistentAuthState = useStore(persistentAuthState); 
   console.log("FooterComponent", $persistentAuthState);
 
-  const hideLoginLink = path === "/login";
+  const hideLoginLink:boolean = (path === "/login");
   const isLoggedIn  = $persistentAuthState.isLoggedIn;
   
   const logout = () => {
-    persistentAuthState.setKey('isLoggedIn', false);
-    persistentAuthState.setKey('token', null);
-    persistentAuthState.setKey('username', null);
+    persistentAuthState.setKey('isLoggedIn', undefined);
+    persistentAuthState.setKey('token', "");
+    persistentAuthState.setKey('username', "");
   }
 
   const logClass = "text-2xl text-gray-100 hover:text-gray-700 py-10";

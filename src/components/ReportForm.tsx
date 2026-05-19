@@ -21,7 +21,7 @@ export default function ReportForm() {
         console.log("ReportForm API result:", result);
     }, [result]);
 
-    const handleMunicipality = (e) => {
+    const handleMunicipality = (e:any) => {
         setSelectedMunicipality(e.target.value);
     }
 

@@ -20,6 +20,8 @@
       "@layouts/*": ["./src/layouts/*"],
       "@pages/*": ["./src/pages/*"],
       "@actions/*": ["./src/actions/*"],
-    }
+    },
+    "verbatimModuleSyntax": true,
+    "types": ["vite/client"]
   }
 }
