@@ -9,7 +9,7 @@ export default function FooterComponent ({ path }: { path: string }) {
   const isLoggedIn  = $persistentAuthState.isLoggedIn;
   
   const logout = () => {
-    persistentAuthState.setKey('isLoggedIn', undefined);
+    persistentAuthState.setKey('isLoggedIn', false);
     persistentAuthState.setKey('token', "");
     persistentAuthState.setKey('username', "");
   }

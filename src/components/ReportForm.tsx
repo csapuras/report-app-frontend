@@ -11,7 +11,7 @@ export default function ReportForm() {
     const $persistentAuthState = useStore(persistentAuthState);
     console.log("ReportForm", $persistentAuthState);
 
-    const [selectedMunicipality, setSelectedMunicipality] = useState(null);
+    const [selectedMunicipality, setSelectedMunicipality] = useState("");
     const [result, formAction, isPending] = useActionState(
         withState(actions.report),
         {   status: null, error: null }
@@ -92,8 +92,8 @@ export default function ReportForm() {
             </label>
             <MapComponent />
         </div>
-        <input type="hidden" name="lat" value={$persistentAuthState.lat} />
-        <input type="hidden" name="lng" value={$persistentAuthState.lng} />
+        <input type="hidden" name="lat" value={$persistentAuthState?.lat ?? ""} />
+        <input type="hidden" name="lng" value={$persistentAuthState?.lng ?? ""} />
 
         <button className="block w-full rounded-lg border border-indigo-600 bg-indigo-600 px-12 py-3 text-sm font-medium text-white transition-colors hover:bg-transparent hover:text-indigo-600 dark:hover:bg-indigo-700 dark:hover:text-white" type="submit">
             Send Report

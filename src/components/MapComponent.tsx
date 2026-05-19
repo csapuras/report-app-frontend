@@ -12,19 +12,19 @@ export default function MapComponent () {
   console.log("MapComponent", $persistentAuthState);
 
   const mapRef = useRef(null);
-  const [error, setError] = useState(false);
-  const [hasLocation, setHasLocation] = useState($persistentAuthState.lat !== "null" &&  $persistentAuthState.lng !== "null");
+  const [error, setError] = useState("");
+  const [hasLocation, setHasLocation] = useState($persistentAuthState.lat !== "" &&  $persistentAuthState.lng !== "");
   useEffect(() => {
     if(!hasLocation) {
       console.log("no current latlng, fetching geolocation...");
       if ("geolocation" in navigator) {
         navigator.geolocation.getCurrentPosition(
           (pos) => {
-            persistentAuthState.setKey('lat', pos.coords.latitude);
-            persistentAuthState.setKey('lng', pos.coords.longitude);
+            persistentAuthState.setKey('lat', String(pos.coords.latitude));
+            persistentAuthState.setKey('lng', String(pos.coords.longitude));
           },
           (err) => {
-            setError(err.message);
+            setError(String(err.message));
           }
         );
       } else {
@@ -39,12 +39,12 @@ export default function MapComponent () {
   <div className="map-container justify-center p-4">
       {error && <p className="text-red-500">{error}</p>}
       { hasLocation &&
-        <MapContainer center={[$persistentAuthState.lat, $persistentAuthState.lng]} zoom={100} ref={mapRef} style={{height: "50vh", width: "100%"}}>
+        <MapContainer center={[Number($persistentAuthState.lat), Number($persistentAuthState.lng)]} zoom={100} ref={mapRef} style={{height: "50vh", width: "100%"}}>
         <TileLayer
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         />
-        <Marker position={[$persistentAuthState.lat, $persistentAuthState.lng]} icon={new Icon({iconUrl: markerIconPng.src, iconSize: [25, 41], iconAnchor: [12, 41]})} />
+        <Marker position={[Number($persistentAuthState.lat), Number($persistentAuthState.lng)]}  icon={new Icon({iconUrl: markerIconPng.src, iconSize: [25, 41], iconAnchor: [12, 41]})} />
       </MapContainer>
       }
   </div>

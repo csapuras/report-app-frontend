@@ -1,6 +1,6 @@
 import { useActionState, useEffect} from 'react';
 import { withState} from '@astrojs/react/actions';
-import { actions } from 'astro:actions';
+import { actions, type SafeResult } from 'astro:actions';
 import { persistentAuthState } from '../mainStore';
 import { navigate } from "astro:transitions/client";
 import { useStore } from '@nanostores/react';
@@ -16,8 +16,8 @@ export default function LoginForm() {
 
   useEffect(() => {
     persistentAuthState.setKey('isLoggedIn', result?.data?.success || false);
-    persistentAuthState.setKey('token', result?.data?.token || null);
-    persistentAuthState.setKey('username', result?.data?.username || null);
+    persistentAuthState.setKey('token', result?.data?.token || "");
+    persistentAuthState.setKey('username', result?.data?.username || "");
 
     if(result?.data?.success) {
       navigate('/dashboard');
