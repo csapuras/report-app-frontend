@@ -65,5 +65,20 @@ export const server = {
           return { success: false, error: data.error };
         }
     }
-  })
+  }),
+  get_reports: defineAction({
+    handler: async () => {
+        const response = await fetch(`${url}/api/reports`, {
+          method: 'GET',
+          headers: { 'Content-Type': 'application/json' }
+        });
+        const data = await response.json();
+        console.log("get_reports",data)
+        if (response.ok) {
+          return {data:data, error:data?.error};
+        } else {
+          return {data:{}, error: data.error };
+        }
+    }
+  }),
 }
