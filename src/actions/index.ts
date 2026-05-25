@@ -17,6 +17,11 @@ interface InputReport {
   lng: string;
 }
 
+interface InputSolveReport {
+  id: string;
+  token: string;
+}
+
 export const server = {
   login: defineAction({
     accept: 'form',
@@ -50,16 +55,14 @@ export const server = {
       lng: z.string(),
     }),
     handler: async (input:InputReport) => {
-      console.log("Report input:", input);
         const response = await fetch(`${url}/api/reports`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(input),
         });
         const data = await response.json();
-        console.log("Report response:", data);
         if (response.ok) {
-            console.log("Submit successful!");
+            console.log("Report Submitted!");
           return { success: true };
         } else {
           return { success: false, error: data.error };
@@ -73,11 +76,35 @@ export const server = {
           headers: { 'Content-Type': 'application/json' }
         });
         const data = await response.json();
-        console.log("get_reports",data)
         if (response.ok) {
           return {data:data, error:data?.error};
         } else {
           return {data:{}, error: data.error };
+        }
+    }
+  }),
+  solve_report: defineAction({
+      input: z.object({
+      id: z.string(),
+      token: z.string(),
+      
+    }),
+    handler: async (input:InputSolveReport) => {
+        const token = input.token;
+        if (!token) throw new Error("Unauthorized");
+
+        const response = await fetch(`${url}/api/reports/${input.id}`, {
+          method: 'PATCH',
+          headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' },
+          body: JSON.stringify({status:"done"}),
+        });
+        const data = await response.json();
+        if (response.ok) {
+            console.log("Report Done!");
+          // set cookie or token for authentication
+          return { success: true };
+        } else {
+          return { success: false, error: data.error };
         }
     }
   }),
