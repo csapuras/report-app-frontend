@@ -18,7 +18,7 @@ export default function FooterComponent ({ path }: { path: string }) {
   
   return (
   <> 
-    <div className="footer-container m-10 text-center fixed inset-x-0 bottom-0">
+    <div className=" footer-container m-10 text-center fixed inset-x-0">
       <p className="py-10">{ hideLoginLink ? "" : isLoggedIn ?
         <a onClick={logout} href="#" className={logClass}>Logout</a> : 
         <a href="/login" className={logClass}>Login</a>
