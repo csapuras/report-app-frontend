@@ -22,6 +22,12 @@ interface InputSolveReport {
   token: string;
 }
 
+interface InputGetReport {
+  page: number;
+  limit: number;
+  totalPages: number;
+}
+
 export const server = {
   login: defineAction({
     accept: 'form',
@@ -70,7 +76,12 @@ export const server = {
     }
   }),
   get_reports: defineAction({
-    handler: async () => {
+    input: z.object({
+      page: z.int(),
+      limit: z.int(),
+      totalPages: z.int()
+    }),
+    handler: async (input:InputGetReport) => {
         const response = await fetch(`${url}/api/reports`, {
           method: 'GET',
           headers: { 'Content-Type': 'application/json' }
