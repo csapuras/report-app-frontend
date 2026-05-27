@@ -78,7 +78,7 @@ export const server = {
   get_reports: defineAction({
     input: z.object({
       page: z.int(),
-      limit: z.int(),
+      limit: z.int().default(import.meta.env.DEFAULT_PAGINATION_LIMIT),
       totalPages: z.int()
     }),
     handler: async (input:InputGetReport) => {
