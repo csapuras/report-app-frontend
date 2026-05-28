@@ -87,7 +87,15 @@ export const server = {
       const token = input.token;
         if (!token) throw new Error("Unauthorized");
 
-        const response = await fetch(`${url}/api/reports`, {
+        const paramsObj = {
+          page: String(input.page),
+          limit: String(input.limit),
+          status: String("pending"),
+        };
+
+        const query = new URLSearchParams(paramsObj).toString();
+
+        const response = await fetch(`${url}/api/reports/?${query}`, {
           method: 'GET',
           headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' },
         });
@@ -103,7 +111,6 @@ export const server = {
       input: z.object({
       id: z.string(),
       token: z.string(),
-      
     }),
     handler: async (input:InputSolveReport) => {
         const token = input.token;
