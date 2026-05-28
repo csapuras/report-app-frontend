@@ -26,6 +26,7 @@ interface InputGetReport {
   page: number;
   limit: number;
   totalPages: number;
+  token:string;
 }
 
 export const server = {
@@ -79,12 +80,16 @@ export const server = {
     input: z.object({
       page: z.int(),
       limit: z.int().default(import.meta.env.DEFAULT_PAGINATION_LIMIT),
-      totalPages: z.int()
+      totalPages: z.int(),
+      token:z.string()
     }),
     handler: async (input:InputGetReport) => {
+      const token = input.token;
+        if (!token) throw new Error("Unauthorized");
+
         const response = await fetch(`${url}/api/reports`, {
           method: 'GET',
-          headers: { 'Content-Type': 'application/json' }
+          headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' },
         });
         const data = await response.json();
         if (response.ok) {
