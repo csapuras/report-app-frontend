@@ -79,7 +79,7 @@ export const server = {
   get_reports: defineAction({
     input: z.object({
       page: z.int(),
-      limit: z.int().default(import.meta.env.DEFAULT_PAGINATION_LIMIT),
+      limit: z.int().default(import.meta.env.PUBLIC_DEFAULT_PAGINATION_LIMIT),
       totalPages: z.int(),
       token:z.string()
     }),
@@ -95,7 +95,7 @@ export const server = {
         if (response.ok) {
           return {data:data, error:data?.error};
         } else {
-          return {data:{}, error: data.error };
+          return data;
         }
     }
   }),
