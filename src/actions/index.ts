@@ -17,8 +17,8 @@ interface InputReport {
   lng: string;
   municipality: string;
   barangay: string;
-  details: string | undefined;
-  address: string | undefined;
+  details?: string | undefined;
+  address?: string | undefined;
 }
 
 interface InputSolveReport {
