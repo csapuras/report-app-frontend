@@ -15,6 +15,10 @@ interface InputReport {
   contact: string;
   lat: string;
   lng: string;
+  municipality: string;
+  barangay: string;
+  details: string | undefined;
+  address: string | undefined;
 }
 
 interface InputSolveReport {
@@ -60,6 +64,10 @@ export const server = {
       contact: z.string(),
       lat: z.string(),
       lng: z.string(),
+      municipality: z.string(),
+      barangay: z.string(),
+      details: z.string().optional(),
+      address: z.string().optional(),
     }),
     handler: async (input:InputReport) => {
         const response = await fetch(`${url}/api/reports`, {

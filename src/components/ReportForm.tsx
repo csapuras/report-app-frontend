@@ -22,86 +22,71 @@ export default function ReportForm() {
 
     useEffect(() => {
         console.log("ReportForm API result:", result);
+        if(result?.data?.success) {
+            window.location.href = "/success";
+        }
     }, [result]);
 
     const handleMunicipality = (e:any) => {
         setSelectedMunicipality(e.target.value);
     }
 
+    const inputTextClass="text-md mt-2 p-2 w-full rounded-lg focus:border-1 border-1 border-(--color-secondary) focus:border-(--color-accent) focus:outline-none"
+
+    const selectClass="disabled:bg-gray-300 disabled:text-gray-500 disabled:border- text-md mt-2 w-full rounded-lg border-solid border-1 border-(--color-secondary) focus:border-(--color-accent) focus:outline-none p-2"
   return (
     <div className="report-container p-4 text-left  w-lg max-w-lg">
-        {result?.data?.success && <p className="text-green-500 mb-4">Report submitted successfully!</p>}
-      <form action={formAction} className="mx-auto max-w-2xl space-y-4 rounded-lg border border-gray-300 bg-gray-100 p-6 dark:border-gray-600 dark:bg-gray-800">
-        <div>
-            <label className="block text-sm font-medium text-gray-900 dark:text-white" htmlFor="name">
-            Name
-            </label>
+        {isPending ?
+        <div className="text-md text-center">Submitting Report...</div> :
+        <form action={formAction} className="mx-auto max-w-2xl space-y-4 rounded-lg border border-gray-300 bg-gray-100 p-2 dark:border-gray-600 dark:bg-gray-800">
+            <div>
+                <input className={inputTextClass} name="name" type="text" placeholder="Full Name" required />
+            </div>
+            <div>
+                <input className={inputTextClass} name="contact" type="text" placeholder="09XXXXXXXXX" required/>
+            </div>
+            <div>
+                <select onChange={handleMunicipality} className={selectClass} id="municipality" name="municipality" required>
+                    <option value={selectedMunicipality}>Select a municipality</option>
+                    {Object.values(data.municipalities).map((mun) => (
+                        <option key={mun.name.trim()} value={mun.name}>
+                            {mun.name}
+                        </option>
+                    ))}
+                </select>
+            </div>
+            <div>
+                <select className={selectClass} id="barangay" name="barangay" required disabled={!selectedMunicipality}>
+                    <option value="">Select a barangay</option>
+                    {Object.values(data.municipalities.filter((mun) => mun.name === selectedMunicipality)).flatMap((mun) => mun.barangays).map((bar) => (
+                        <option key={bar.trim()} value={bar}>
+                            {bar}
+                        </option>
+                    ))}
+                </select>
+            </div>
+            <div>
+                <input className={inputTextClass} name="address" type="text" placeholder="Address" required/>
+            </div>
+            <div>
+                <input className={inputTextClass} name="details" type="text" placeholder="Details (burning post, questionable activity...)"/>
+            </div>
+            {/* TODO: Add map component for location selection */}
+            {/* <div>
+                <label className=" p-2 block text-md font-medium text-gray-900 dark:text-white" htmlFor="details">
+                Map
+                </label>
+                <MapComponent />
+            </div> */}
+            <input type="hidden" name="lat" value={$persistentAuthState?.lat ?? ""} />
+            <input type="hidden" name="lng" value={$persistentAuthState?.lng ?? ""} />
 
-            <input className="p-2 mt-1 w-full rounded-lg border-gray-300 focus:border-indigo-500 focus:outline-none dark:border-gray-600 dark:bg-gray-900 dark:text-white" name="name" type="text" placeholder="Name" />
-        </div>
-
-        <div>
-            <label className="p-2 block text-sm font-medium text-gray-900 dark:text-white" htmlFor="contact">
-            Contact Number
-            </label>
-
-            <input className="p-2 mt-1 w-full rounded-lg border-gray-300 focus:border-indigo-500 focus:outline-none dark:border-gray-600 dark:bg-gray-900 dark:text-white" name="contact" type="text" placeholder="09XXXXXXXXX"/>
-        </div>
-        <div>
-            <label className="p-2 block text-sm font-medium text-gray-900 dark:text-white" htmlFor="municipality">
-            Municipality
-            </label>
-
-            <select onChange={handleMunicipality} className="mt-1 w-full rounded-lg border-gray-100 focus:border-indigo-500 focus:outline-none" id="municipality" name="municipality">
-                <option value={selectedMunicipality}>Select a municipality</option>
-                {Object.values(data.municipalities).map((mun) => (
-                    <option key={mun.name.trim()} value={mun.name}>
-                        {mun.name}
-                    </option>
-                ))}
-            </select>
-        </div>
-        <div>
-            <label className="p-2 block text-sm font-medium text-gray-900 dark:text-white" htmlFor="barangay">
-            Barangay
-            </label>
-
-            <select className="mt-1 w-full rounded-lg border-gray-100 focus:border-indigo-500 focus:outline-none" id="barangay" name="barangay">
-                <option value="">Select a barangay</option>
-                {Object.values(data.municipalities.filter((mun) => mun.name === selectedMunicipality)).flatMap((mun) => mun.barangays).map((bar) => (
-                    <option key={bar.trim()} value={bar}>
-                        {bar}
-                    </option>
-                ))}
-            </select>
-        </div>
-        <div>
-            <label className="p-2 block text-sm font-medium text-gray-900 dark:text-white" htmlFor="address">
-            Street / Purok
-            </label>
-
-            <input className="p-2 mt-1 w-full rounded-lg border-gray-300 focus:border-indigo-500 focus:outline-none dark:border-gray-600 dark:bg-gray-900 dark:text-white" name="address" type="text" placeholder="Address"/>
-        </div>
-        <div>
-            <label className="p-2 block text-sm font-medium text-gray-900 dark:text-white" htmlFor="details">
-            Details
-            </label>
-
-            <input className="p-2 mt-1 w-full rounded-lg border-gray-300 focus:border-indigo-500 focus:outline-none dark:border-gray-600 dark:bg-gray-900 dark:text-white" name="details" type="text" placeholder="Brownout, burning pole..."/>
-        </div>
-        <div>
-            <label className="p-2 block text-sm font-medium text-gray-900 dark:text-white" htmlFor="details">
-            Map
-            </label>
-            <MapComponent />
-        </div>
-        <input type="hidden" name="lat" value={$persistentAuthState?.lat ?? ""} />
-        <input type="hidden" name="lng" value={$persistentAuthState?.lng ?? ""} />
-
-        <button className="block w-full rounded-lg border border-indigo-600 bg-indigo-600 px-12 py-3 text-sm font-medium text-white transition-colors hover:bg-transparent hover:text-indigo-600 dark:hover:bg-indigo-700 dark:hover:text-white" type="submit">
-            Send Report
-        </button>
+            <button className="text-xl block w-full rounded-lg border border-(--color-accent) bg-(--color-accent) px-12 py-3 text-sm font-medium text-white transition-colors hover:bg-transparent hover:text-(--link-color) hover:cursor-pointer" type="submit">
+                Send Report
+            </button>
         </form>
+        }
+      
     </div>
   );
 }
