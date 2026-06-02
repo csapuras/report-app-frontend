@@ -20,7 +20,7 @@ import FooterComponent from '@components/FooterComponent';
                 <slot/>
 			</div>
 			<div class="footer">
-				<FooterComponent />
+				<FooterComponent client:only path={Astro.url.pathname} />
 			</div>
 		</div>
 	</body>
