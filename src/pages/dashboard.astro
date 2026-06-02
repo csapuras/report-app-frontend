@@ -4,5 +4,5 @@ import Dashboard from '@components/Dashboard';
 
 ---
 <BaseLayout>
-    <Dashboard client:only />
+    <Dashboard client:only path={Astro.url.pathname} />
 </BaseLayout>

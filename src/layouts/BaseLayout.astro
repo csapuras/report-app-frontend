@@ -13,14 +13,14 @@ import FooterComponent from '@components/FooterComponent';
 		<title>Report Power Interruption App</title>
 	</head>
 	<body>
-		<div class="body bg-gray-800 text-white p-4 flex flex-col min-h-screen justify-center items-center">
+		<div class="p-4 flex flex-col min-h-120 justify-center items-center">
 			<div class="header">
 			</div>
 			<div class="content">
                 <slot/>
 			</div>
 			<div class="footer">
-				<FooterComponent client:only path={Astro.url.pathname} />
+				<FooterComponent />
 			</div>
 		</div>
 	</body>

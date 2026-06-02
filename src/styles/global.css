@@ -1,1 +1,29 @@
 @import "tailwindcss";
+
+:root {
+  /* 60-30-10 Color System */
+  --color-dominant: #edeff7;
+  --color-secondary: #082191;
+  --color-accent: #dfbd23;
+  
+  /* Text Colors */
+  --text-on-dominant: #082191;
+  --text-on-secondary: #ffffff;
+  --text-on-accent: #000000;
+  --link-color: #dfbd23;
+}
+
+body {
+  background-color: var(--color-dominant);
+  color: var(--text-on-dominant);
+}
+
+.header {
+  background-color: var(--color-secondary);
+  color: var(--text-on-secondary);
+}
+
+.btn-primary {
+  background-color: var(--color-accent);
+  color: var(--text-on-accent);
+}
