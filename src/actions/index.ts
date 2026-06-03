@@ -13,8 +13,8 @@ interface InputLogin {
 interface InputReport {
   name: string;
   contact: string;
-  lat: string;
-  lng: string;
+  lat?: string;
+  lng?: string;
   municipality: string;
   barangay: string;
   details?: string | undefined;
@@ -62,12 +62,12 @@ export const server = {
     input: z.object({
       name: z.string(),
       contact: z.string(),
-      lat: z.string(),
-      lng: z.string(),
+      lat: z.string().optional(),
+      lng: z.string().optional(),
       municipality: z.string(),
       barangay: z.string(),
       details: z.string().optional(),
-      address: z.string().optional(),
+      address: z.string(),
     }),
     handler: async (input:InputReport) => {
         const response = await fetch(`${url}/api/reports`, {

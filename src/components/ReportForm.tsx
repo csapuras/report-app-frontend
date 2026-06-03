@@ -21,7 +21,6 @@ export default function ReportForm() {
     );
 
     useEffect(() => {
-        console.log("ReportForm API result:", result);
         if(result?.data?.success) {
             window.location.href = "/success";
         }
@@ -35,15 +34,17 @@ export default function ReportForm() {
 
     const selectClass="disabled:bg-gray-300 disabled:text-gray-500 disabled:border- text-md mt-2 w-full rounded-lg border-solid border-1 border-(--color-secondary) focus:border-(--color-accent) focus:outline-none p-2"
   return (
-    <div className="report-container p-4 text-left  w-lg max-w-lg">
+    <div className="report-container p-4 text-left  w-sm max-w-lg">
         {isPending ?
         <div className="text-md text-center">Submitting Report...</div> :
         <form action={formAction} className="mx-auto max-w-2xl space-y-4 rounded-lg border border-gray-300 bg-gray-100 p-2 dark:border-gray-600 dark:bg-gray-800">
             <div>
                 <input className={inputTextClass} name="name" type="text" placeholder="Full Name" required />
+                <span className="required text-xs">* Required</span> 
             </div>
             <div>
-                <input className={inputTextClass} name="contact" type="text" placeholder="09XXXXXXXXX" required/>
+                <input className={inputTextClass} name="contact" type="text" pattern="(\d{11})" placeholder="09XXXXXXXXX" required/>
+                <span className="required text-xs">* Required</span>       
             </div>
             <div>
                 <select onChange={handleMunicipality} className={selectClass} id="municipality" name="municipality" required>
@@ -54,6 +55,7 @@ export default function ReportForm() {
                         </option>
                     ))}
                 </select>
+                <span className="required text-xs">* Required</span>   
             </div>
             <div>
                 <select className={selectClass} id="barangay" name="barangay" required disabled={!selectedMunicipality}>
@@ -64,12 +66,13 @@ export default function ReportForm() {
                         </option>
                     ))}
                 </select>
+                <span className="required text-xs">* Required</span>   
             </div>
             <div>
                 <input className={inputTextClass} name="address" type="text" placeholder="Address" required/>
             </div>
             <div>
-                <input className={inputTextClass} name="details" type="text" placeholder="Details (burning post, questionable activity...)"/>
+                <input className={inputTextClass} name="details" type="text" placeholder="Details (burning post, fluctuation...)"/>
             </div>
             {/* TODO: Add map component for location selection */}
             {/* <div>
@@ -81,7 +84,7 @@ export default function ReportForm() {
             <input type="hidden" name="lat" value={$persistentAuthState?.lat ?? ""} />
             <input type="hidden" name="lng" value={$persistentAuthState?.lng ?? ""} />
 
-            <button className="text-xl block w-full rounded-lg border border-(--color-accent) bg-(--color-accent) px-12 py-3 text-sm font-medium text-white transition-colors hover:bg-transparent hover:text-(--link-color) hover:cursor-pointer" type="submit">
+            <button className="text-lg block w-full rounded-lg border border-(--color-accent) bg-(--color-accent) px-12 py-3 text-sm font-medium text-white transition-colors hover:bg-transparent hover:text-(--link-color) hover:cursor-pointer" type="submit">
                 Send Report
             </button>
         </form>

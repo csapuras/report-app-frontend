@@ -12,6 +12,7 @@ export default function FooterComponent ({ path }: { path: string }) {
         persistentAuthState.setKey('isLoggedIn', false);
         persistentAuthState.setKey('token', "");
         persistentAuthState.setKey('username', "");
+        window
     }
 
   const logClass = "text-md text-(--text-on-dominant) hover:border-b-1 hover:border-(--color-accent) my-10 p-2";

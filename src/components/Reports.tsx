@@ -2,6 +2,7 @@ import { actions } from 'astro:actions';
 import { useEffect, useState } from 'react';
 import { useStore } from '@nanostores/react';
 import { persistentAuthState } from '../mainStore.js';
+import LoadingComponent from './LoadingComponent.js';
 
 interface StatusState {
     id: string;
@@ -70,13 +71,6 @@ export default function Reports () {
         setLoading(false);
     },[])
 
-    // useEffect(()=>{
-    //    console.log(data)
-    //    console.log(error)
-    // },[data, error])
-
-
-
     useEffect(()=>{
         const filteredData = data.map(({ id, status }) => ({ id, status }));
         setStatuses(filteredData);
@@ -87,36 +81,37 @@ export default function Reports () {
         {loading && <p>Loading</p>}
         {error.status ? 
             <h2>{error.message}</h2> :
+            data.length > 0  ? 
             <div className="max-h-90 overflow-x-auto rounded border-solid border-1 border-(--color-secondary) shadow-sm">
-            <table className=" divide-y-2 divide-(--color-secondary)">
-                <thead className="sticky top-0 bg-(--link-color) ltr:text-left rtl:text-right">
-                <tr className="*:font-medium *:text-(--text-on-dominant)">
-                    <th className="px-3 py-2 whitespace-nowrap">Date</th>
-                    <th className="px-3 py-2 whitespace-nowrap">Name</th>
-                    <th className="px-3 py-2 whitespace-nowrap">Contact</th>
-                    <th className="px-3 py-2 whitespace-nowrap">Municipality</th>
-                    <th className="px-3 py-2 whitespace-nowrap">Barangay</th>
-                    <th className="px-3 py-2 whitespace-nowrap">Address</th>
-                    <th className="px-3 py-2 whitespace-nowrap">Details</th>
-                    <th className="px-3 py-2 whitespace-nowrap">Action</th>
-                </tr>
-                </thead>
-                <tbody className="divide-y divide-gray-200 bg-(color-dominant)">
-                { data.map((item:DataType)=>{
-                    const currentStatus = statuses.filter((status)=>{return status?.id === item.id})[0]
-                    console.log(currentStatus?.status)
-                    return (
-                        <tr className="*:text-(--text-on-dominant) *:first:font-medium" key={item.id} id={item.id}>
-                            <td className="px-3 py-2 whitespace-nowrap text-blue-600">{new Intl.DateTimeFormat('en-US').format(new Date(item.created_at))}</td>
-                            <td className="px-3 py-2 whitespace-nowrap">{item.name}</td>
-                            <td className="px-3 py-2 whitespace-nowrap">{item.contact}</td>
-                            <td className="px-3 py-2 whitespace-nowrap">{item.municipality}</td>
-                            <td className="px-3 py-2 whitespace-nowrap">{item.barangay}</td>
-                            <td className="px-3 py-2 whitespace-nowrap">{item.address}</td>
-                            <td className="max-w-50 px-3 py-2">{item.details}</td>
-                             { currentStatus?.status === 'pending' ?
+                <table className=" divide-y-2 divide-(--color-secondary)">
+                    <thead className="sticky top-0 bg-(--link-color) ltr:text-left rtl:text-right">
+                    <tr className="*:font-medium *:text-(--text-on-dominant)">
+                        <th className="px-3 py-2 whitespace-nowrap">Date</th>
+                        <th className="px-3 py-2 whitespace-nowrap">Name</th>
+                        <th className="px-3 py-2 whitespace-nowrap">Contact</th>
+                        <th className="px-3 py-2 whitespace-nowrap">Municipality</th>
+                        <th className="px-3 py-2 whitespace-nowrap">Barangay</th>
+                        <th className="px-3 py-2 whitespace-nowrap">Address</th>
+                        <th className="px-3 py-2 whitespace-nowrap">Details</th>
+                        <th className="px-3 py-2 whitespace-nowrap">Action</th>
+                    </tr>
+                    </thead>
+                    <tbody className="divide-y divide-gray-200 bg-(color-dominant)">
+                    { data.map((item:DataType)=>{
+                        const currentStatus = statuses.filter((status)=>{return status?.id === item.id})[0]
+                        // console.log(currentStatus)
+                        return (
+                            currentStatus?.status === 'pending' &&
+                            <tr className="*:text-(--text-on-dominant) *:first:font-medium" key={item.id} id={item.id}>
+                                <td className="px-3 py-2 whitespace-nowrap text-blue-600">{new Intl.DateTimeFormat('en-US').format(new Date(item.created_at))}</td>
+                                <td className="px-3 py-2 whitespace-nowrap">{item.name}</td>
+                                <td className="px-3 py-2 whitespace-nowrap">{item.contact}</td>
+                                <td className="px-3 py-2 whitespace-nowrap">{item.municipality}</td>
+                                <td className="px-3 py-2 whitespace-nowrap">{item.barangay}</td>
+                                <td className="px-3 py-2 whitespace-nowrap">{item.address}</td>
+                                <td className="max-w-50 px-3 py-2">{item.details}</td>
                                 <td className="text-center">
-                                      <a data-id={item.id} className="inline-flex items-center gap-2 rounded-sm hover:bg-(--color-secondary) rounded p-3" href="#"
+                                    <a data-id={item.id} className="inline-flex items-center gap-2 rounded-sm hover:bg-(--color-secondary) rounded p-3" href="#"
                                             onClick={async (event) => {
                                                 const selectedId = event.currentTarget.dataset.id ?? "";
                                                 setSelectedReport({id:selectedId, status:"pending"})
@@ -124,16 +119,15 @@ export default function Reports () {
                                             }}
                                         >
                                         <span className="text-(--link-color)"><svg className="fill-(--link-color)" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M20.285 2l-11.285 11.567-5.286-5.011-3.714 3.716 9 8.728 15-15.285z"/></svg></span>
-                                        </a>
-                                </td> : 
-                                <td></td>
-                             }
-                        </tr>
-                    )
-                })}
-                </tbody>
-            </table>
-        </div>
+                                    </a>
+                                </td>
+                            </tr> 
+                        )
+                    })}
+                    </tbody>
+                </table>
+            </div> : 
+            <LoadingComponent />
         }
         
 
@@ -164,9 +158,7 @@ export default function Reports () {
                                 const response = await actions.solve_report({id:selectedReport.id, token:$persistentAuthState.token })
                                 if(response?.data?.success){
                                     selectedReport.status = 'done'
-                                    console.log(selectedReport)
-                                    console.log(statuses)
-                                    setStatuses([...statuses, selectedReport])
+                                    setStatuses([selectedReport, ...statuses])
                                     setShowDialog(false)
                                 }
                             }}>
