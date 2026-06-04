@@ -3,7 +3,9 @@ import { z } from 'astro/zod';
 
 const host:string = import.meta.env.PUBLIC_DEFAULT_SERVER;
 const port:string = import.meta.env.PUBLIC_DEFAULT_PORT;
-const url:string = `${host}:${port}`
+const env:string = import.meta.env.MODE;
+
+const url:string = env === 'development' ? `${host}:${port}` : host;
 
 interface InputLogin {
   username: string;
