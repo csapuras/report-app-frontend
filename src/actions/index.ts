@@ -7,6 +7,8 @@ const env:string = import.meta.env.MODE;
 
 const url:string = env === 'development' ? `${host}:${port}` : host;
 
+console.log(import.meta.env.MODE, url)
+
 interface InputLogin {
   username: string;
   password: string;
