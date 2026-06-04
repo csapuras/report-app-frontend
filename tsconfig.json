@@ -2,7 +2,8 @@
   "extends": "astro/tsconfigs/strict",
   "include": [
     ".astro/types.d.ts",
-    "**/*"
+    "**/*",
+    "./worker-configuration.d.ts"
   ],
   "exclude": [
     "dist"
@@ -13,15 +14,25 @@
     "plugins": [
       {
         "name": "@astrojs/ts-plugin"
-      },
+      }
     ],
     "paths": {
-      "@components/*": ["./src/components/*"],
-      "@layouts/*": ["./src/layouts/*"],
-      "@pages/*": ["./src/pages/*"],
-      "@actions/*": ["./src/actions/*"],
+      "@components/*": [
+        "./src/components/*"
+      ],
+      "@layouts/*": [
+        "./src/layouts/*"
+      ],
+      "@pages/*": [
+        "./src/pages/*"
+      ],
+      "@actions/*": [
+        "./src/actions/*"
+      ]
     },
     "verbatimModuleSyntax": true,
-    "types": ["vite/client"]
+    "types": [
+      "vite/client"
+    ]
   }
 }
