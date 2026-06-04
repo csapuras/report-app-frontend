@@ -41,6 +41,7 @@ export const server = {
       password: z.string(),
     }),
     handler: async (input:InputLogin) => {
+        console.log("LOGIN", url)
         const response = await fetch(`${url}/login`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
