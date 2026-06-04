@@ -34,6 +34,7 @@
   },
   "devDependencies": {
     "@types/leaflet": "^1.9.21",
+    "@types/node": "^25.9.1",
     "wrangler": "^4.97.0"
   },
   "overrides": {

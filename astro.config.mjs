@@ -13,6 +13,9 @@ export default defineConfig({
 
   vite: {
     plugins: [tailwindcss()],
+    esbuild: {
+      drop: process.env.NODE_ENV === 'production' ? ['console', 'debugger'] : [],
+    },
   },
 
   output: 'server',
